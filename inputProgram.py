@@ -14,15 +14,17 @@ def checkRow(box):
       return False
   return True
 
-
 #check to see if there are any other of the same letter in that column
-def checkY(letter):
-  i = 0
-  while(i < a):
-    if((inputs[i])[box.yPos] == box.letter):
-      return True
-    else:
+def checkColumn(box):
+  global fullGrid
+  global a
+
+  for y in range(a):
+    if(y == box.yPos):
+      continue
+    elif(fullGrid[box.xPos][y].num == box.num):
       return False
+  return True
 
 #print grid
 def printGrid(fullGrid, a):
@@ -99,4 +101,8 @@ while(y < a):
 print(a)
 print(inputs)
 printGrid(randomInit(fullGrid, a), a)
+print("Is row valid?")
 print(checkRow(fullGrid[0][0]))
+print("Is column valid?")
+print(checkColumn(fullGrid[0][0]))
+
