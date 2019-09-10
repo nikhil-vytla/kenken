@@ -3,31 +3,48 @@ import random
 
 
 #check to see if there are any other of the same letter in that row
-def checkRow(box):
-  global fullGrid
+def checkRow(grid, y):
   global a
 
-  for x in range(a):
-    if(x == box.xPos):
-      continue
-    elif(fullGrid[x][box.yPos].num == box.num):
-      return False
+  for x1 in range(a):
+    for x2 in range(a):
+      if(x1 == x2):
+        continue
+      elif(grid[x1][y].num == grid[x2][y].num):
+        return False
   return True
 
 #check to see if there are any other of the same letter in that column
-def checkColumn(box):
-  global fullGrid
+def checkColumn(grid, x):
   global a
 
-  for y in range(a):
-    if(y == box.yPos):
-      continue
-    elif(fullGrid[box.xPos][y].num == box.num):
-      return False
+  for y1 in range(a):
+    for y2 in range(a):
+      if(y1 == y2):
+        continue
+      elif(grid[x][y1].num == grid[x][y2].num):
+        return False
   return True
 
+def checkGrid(grid):
+  for x in range(a):
+    if(checkColumn(x) == False):
+      return false
+  for y in range(a):
+    if(checkRow(y) == False):
+      return false
+  #for Sections in Sections Array
+    #checkSections for validity
+  return true
+
+#check Sections held in Section array to see if valid
+#def checkSection(grid, letter):
+  
+  
+
 #print grid
-def printGrid(fullGrid, a):
+def printGrid(fullGrid):
+  global a
   for y in range(a):
     print("")
     for x in range(a):
@@ -37,10 +54,11 @@ def printGrid(fullGrid, a):
 
 
 
-def randomInit(fullGrid, a):
+def randomInit(fullGrid:
+  global a
   for y in range(a):
     for x in range(a):
-      fullGrid[x][y].num = random.randint(1,6)
+      fullGrid[x][y].num = random.randint(1,a)
   return fullGrid
 
 
@@ -71,10 +89,18 @@ class Box:
     print("Box letter is " + self.letter + " at " + str(self.xPos)
           + ", " + str(self.yPos))
 
+  def constrained(box)
+  
+    return box.possibleValues
+
 
 
 a = int(input())
-fullGrid = [[0 for x in range(6)] for y in range(6)]
+fullGrid = [[0 for x in range(a)] for y in range(a)]
+sections = [0 for x in range(a)]
+
+
+
 
 inputs = []
 boxes = []
@@ -100,9 +126,9 @@ while(y < a):
     
 print(a)
 print(inputs)
-printGrid(randomInit(fullGrid, a), a)
+printGrid(randomInit(fullGrid))
 print("Is row valid?")
-print(checkRow(fullGrid[0][0]))
+print(checkRow(fullGrid, 0))
 print("Is column valid?")
-print(checkColumn(fullGrid[0][0]))
+print(checkColumn(fullGrid, 0))
 
