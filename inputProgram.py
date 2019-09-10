@@ -3,13 +3,16 @@ import random
 
 
 #check to see if there are any other of the same letter in that row
-def checkX(box):
-  i = 0
-  while(i < a):
-    if((inputs[box.yPos])[i] == box.letter):
-      return True
-    else:
+def checkRow(box):
+  global fullGrid
+  global a
+
+  for x in range(a):
+    if(x == box.xPos):
+      continue
+    elif(fullGrid[x][box.yPos].num == box.num):
       return False
+  return True
 
 
 #check to see if there are any other of the same letter in that column
@@ -26,24 +29,27 @@ def printGrid(fullGrid, a):
   for y in range(a):
     print("")
     for x in range(a):
-      print(fullGrid[y][x].num, end = ' ')
+      print(fullGrid[x][y].num, end = ' ')
   print("")
+
 
 
 
 def randomInit(fullGrid, a):
   for y in range(a):
     for x in range(a):
-      fullGrid[y][x].num = random.randint(1,6)
+      fullGrid[x][y].num = random.randint(1,6)
   return fullGrid
 
 
 
 
 class Section:
-  def __init__(self, letter, numEls):
+  def __init__(self, letter, numEls, arr, ):
     self.letter = letter
     self.numEls = numEls
+    self.arr = arr
+    
 
   def getLetter(self):
     return self.letter
@@ -57,6 +63,7 @@ class Box:
     self.xPos = xPos
     self.yPos = yPos
     self.num = 0
+    possible = []
 
   def printBox(self):
     print("Box letter is " + self.letter + " at " + str(self.xPos)
@@ -65,10 +72,11 @@ class Box:
 
 
 a = int(input())
+fullGrid = [[0 for x in range(6)] for y in range(6)]
+
 inputs = []
 boxes = []
-fullGrid = [[0 for x in range(6)] for y in range(6)]
-lastSection = Section("Z", 0)
+
 #Iterate down rows to add Strings of characters to array
 y = 0
 while(y < a):
@@ -82,15 +90,13 @@ while(y < a):
   while(x < a):
     newBox = Box(b[x], x, y)
     newBox.printBox()
-    fullGrid[y][x] = newBox
+    fullGrid[x][y] = newBox
     x += 1
 
   y += 1
 
-while(
     
 print(a)
 print(inputs)
 printGrid(randomInit(fullGrid, a), a)
-
-
+print(checkRow(fullGrid[0][0]))
