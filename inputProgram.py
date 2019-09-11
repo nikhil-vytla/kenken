@@ -148,21 +148,20 @@ a = int(input())
 fullGrid = [[0 for x in range(a)] for y in range(a)]
 sections = [0 for x in range(a)]
 
-
-
-
 inputs = []
 boxes = []
-
+sectionRules = []
 #Iterate down rows to add Strings of characters to array
 y = 0
 while(y < a):
   b = str(input())
 
-  
+  # Find all unique section letters (set)
+  sectionRules.extend(list(b))
+
   inputs.append(b)
 
-  #Iteratre through characters in each array and make new Boxs
+  #Iterate through characters in each array and make new Boxes
   x = 0
   while(x < a):
     newBox = Box(b[x], x, y)
@@ -171,6 +170,15 @@ while(y < a):
     x += 1
 
   y += 1
+
+#Iterate through and assign Section rules based on letter ID
+ruleDict = dict.fromkeys(set(sectionRules), "")
+
+for key in sorted(ruleDict):
+  print("{}:".format(key), end = '')
+  ruleDict[key] = str(input())
+    #Convert incoming string into two parts: number and operator
+
 
     
 print(a)
