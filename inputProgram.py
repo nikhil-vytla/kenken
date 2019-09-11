@@ -37,9 +37,58 @@ def checkGrid(grid):
     #checkSections for validity
   return true
 
-#check Sections held in Section array to see if valid
-#def checkSection(grid, letter):
-  
+
+#Parameters
+  #Array of length is the numBoxes in the Section
+  #Total is what they must equal combined
+  #Func is either +, -, *, or /
+def checkSection(arr, total, func):
+    result = arr[0]
+    print(result)
+    for i in range(len(arr) - 1):
+        if(func == '+'):
+            result += arr[i + 1]
+        elif(func == '-'):
+            result -= arr[i + 1]
+        elif(func == '*'):
+            result *= arr[i + 1]
+        elif(func == '/'):
+            result /= arr[i + 1]
+        print(result)
+    if(result == total):
+        return True
+    else:
+        return False
+
+
+#if string == '+'  
+def getFactorSum(numBoxes, total){
+
+
+#if string == '*'  
+def getFactorCombos(numBoxes, total)
+  global a;
+  factors = []
+
+  for i in range(a):
+    if(i != 0):
+       if(total % i == 0):
+          factors.append(i)
+  for x in range(factors.length):
+    for y in range(numBoxes):
+      product *= factors[y]
+    if(product == total)
+      return
+      
+#if string == '-'  
+def getFactorSubstracted(numBoxes, total){
+
+
+#if string == '-'  
+def getFactorDivide(numBoxes, total){
+
+
+
   
 
 #print grid
