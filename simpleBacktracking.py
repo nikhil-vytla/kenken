@@ -63,7 +63,6 @@ def checkGrid(grid):
   #Total is what they must equal combined
   #Func is either +, -, *, or /
 def checkSection(arr, total, func):
-  arr = sorted(arr)
   result = arr[0]
   print(result)
   for i in range(len(arr) - 1):
@@ -118,6 +117,13 @@ def randomInit(fullGrid):
       fullGrid[x][y].num = random.randint(1,a)
   return fullGrid
 
+def zeroInit(fullGrid):
+  global a
+  for y in range(a):
+    for x in range(a):
+      fullGrid[x][y].num = 0
+  return fullGrid
+
 
 
 
@@ -153,46 +159,95 @@ class Box:
 
 a = int(input())
 fullGrid = [[0 for x in range(a)] for y in range(a)]
-sections = [0 for x in range(a)]
 
-inputs = []
-boxes = []
-sectionRules = []
-#Iterate down rows to add Strings of characters to array
-y = 0
-while(y < a):
-  b = str(input())
-
-  # Find all unique section letters (set)
-  sectionRules.extend(list(b))
-
-  inputs.append(b)
-
-  #Iterate through characters in each array and make new Boxes
-  x = 0
-  while(x < a):
-    newBox = Box(b[x], x, y)
-    newBox.printBox()
+for x in range(a):
+  for y in range(a):
+    newBox = Box('A', x, y)
+    newBox.num = 0
     fullGrid[x][y] = newBox
-    x += 1
+    
 
-  y += 1
+#
+#
+#BEGIN BACKTRACKING ALGORITHM
+#
+#
 
-#Iterate through and assign Section rules based on letter ID
-ruleDict = dict.fromkeys(set(sectionRules), "")
 
-for key in sorted(ruleDict):
-  print("{}:".format(key), end = '')
-  ruleDict[key] = str(input())
-    #Convert incoming string into two parts: number and operator
+def checkColumn(grid, xPos, yPos, num):
+  global a
 
+  for y in range(a):
+    if(y == yPos):
+      continue
+    elif(fullGrid[xPos][y].num == num):
+      return False
+  return True
+
+
+#currentX = 0
+#currentY = 0
+
+def nextNode(grid, l):
+  global a
+  for x in range(a):
+    for y in range(a):
+      if(grid[x][y].num == 0):
+        l[0] = x
+        l[1] = y
+        return True
+  else:
+    return False
+
+  
+
+
+#NOTE: this only checks rows and columns right now
+def isSafe(grid, x, y, num):
+    return(isRowSafe(grid, x, y, num) and isColumnSafe(grid, x, y, num))
+
+
+#REMEMBER this is a grid of boxes! Not just integers
+def solveSudoku(grid):
+  global fullGrid
+  global currentX
+  global currentY
+  global a
+
+  # 'l' is a list variable that keeps the record of row and col in find_empty_location Function     
+  l=[0,0]
+
+  xPos = l[0]
+  yPos = l[1]
+  
+  if(nextNode(grid, l) == False):
+    fullGrid = grid
+    return True
+
+  #Num range is ints from 1 to a
+  for num in range(1,a + 1):
+
+    printGrid(grid) #FOR TESTING
+    #printGrid(fullGrid)
+
+    if (isSafe(grid, xPos, yPos, num)):
+        grid[col][row].num = num
+
+        if(solveSudoku(grid)):
+          return True
+
+        print("CurrentX: " + str(col) + " Current Y: " + str(row))
+        print(num + 1)
+        grid[col][row].num = 0
+        
+
+  print(False)
+  return False
+
+print(a)
+printGrid(zeroInit(fullGrid))
+print(solveSudoku(fullGrid))
+printGrid(fullGrid)
 
     
-print(a)
-print(inputs)
-printGrid(randomInit(fullGrid))
-print("Is row valid?")
-print(checkRow(fullGrid, 0))
-print("Is column valid?")
-print(checkColumn(fullGrid, 0))
-
+  
