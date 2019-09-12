@@ -1,20 +1,17 @@
+a = 6
+fullGrid = [[0 for x in range(a)] for y in range(a)]
 
-def checkSection(arr, total, func):
-    result = arr[0]
-    print(result)
-    for i in range(len(arr) - 1):
-        if(func == '+'):
-            result += arr[i + 1]
-        elif(func == '-'):
-            result -= arr[i + 1]
-        elif(func == '*'):
-            result *= arr[i + 1]
-        elif(func == '/'):
-            result /= arr[i + 1]
-        print(result)
-    if(result == total):
-        return True
-    else:
-        return False
 
-print(checkSection([2,5,4,3], 14, '+'))
+def checkColumn(grid, xPos, yPos, num):
+  global a
+
+  for y in range(a):
+    if(y == yPos):
+      continue
+    elif(fullGrid[xPos][y] == num):
+      return False
+  return True
+
+
+
+print(checkColumn(fullGrid, 2, 3, 0))
